@@ -12,7 +12,7 @@ Oтчёт с обоснованиями и результатами — в [`о�
 
 MinIO (S3) → Lakekeeper (Iceberg REST Catalog, метаданные в PostgreSQL) → Trino (SQL-движок) + Spark (второй движок для чтения Bronze). Всё в Docker Desktop на Windows.
 
-## Методология (кратко)
+## Методология
 
 1. **Пайплайн медальона:** скрипты `04_bronze_q16.sql` → `05_silver_q16.sql` → `06_gold_q16.sql` выполняются в Trino. Корректность Gold проверена `07_validate_gold_q16.sql`: FULL OUTER JOIN Gold с эталонным Q16 на `tpch.sf1` — 0 расхождений по `supplier_cnt` (183 группы brand×type×size).
 2. **Размер:** сумма `file_size_in_bytes` из системной таблицы Iceberg `"<таблица>$files"`; кодек подтверждён через `$properties` (`write.parquet.compression-codec` / `write.orc.compression-codec`).
